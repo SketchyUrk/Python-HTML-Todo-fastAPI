@@ -32,7 +32,7 @@ def saveTasks(tasks):
 def nextID(tasks):
     if not tasks:
         return 1
-    return max(task["id"] for task in tasks) + 1
+    return len(tasks) + 1
 
 
 @app.get("/")
@@ -69,10 +69,10 @@ def completeTask(taskID: int):
     tasks = loadTasks()
 
     for task in tasks:
-        if task["id"] == taskID:
-            task["complete"] = True
+        if int(task["id"]) == taskID:
+            task["completed"] = True
             saveTasks(tasks)
-            return {"message": "Task marked complete"}
+            return {"message": "Task completed"}
 
     raise HTTPException(status_code=404, detail="Task not found")
 
