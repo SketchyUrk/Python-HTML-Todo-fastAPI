@@ -52,7 +52,7 @@ def addTask(taskData : TaskCreate):
     task = {
         "id": nextID(tasks),
         "title": taskData.title,
-        "completed": False
+        "complete": False
     }
     
     tasks.append(task)
