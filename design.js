@@ -54,7 +54,8 @@ document.getElementById("completeBtn").addEventListener("click", async () => {
     console.log("ID input element:", document.getElementById("taskID"));
     console.log("ID value:", document.getElementById("taskID").value);
 
-    await fetch(`http://127.0.0.1:8000/tasks/${id}/complete:${id}`, {
+    console.log(`URL: http://127.0.0.1:8000/tasks/${id}/complete`);
+    await fetch(`http://127.0.0.1:8000/tasks/${id}/complete`, {
         method: "PUT"
     });
 
