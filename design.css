@@ -69,3 +69,8 @@ td{
     font-size: 16px;
     cursor: pointer
 }
+
+h3{
+    font-size: 40px;
+    height: fit-content;
+}
