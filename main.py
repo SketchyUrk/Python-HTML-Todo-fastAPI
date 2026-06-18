@@ -52,7 +52,7 @@ def addTask(taskData : TaskCreate):
     task = {
         "id": nextID(tasks),
         "title": taskData.title,
-        "completed": False
+        "complete": False
     }
     
     tasks.append(task)
@@ -70,7 +70,7 @@ def completeTask(taskID: int):
 
     for task in tasks:
         if task["id"] == taskID:
-            task["completed"] = True
+            task["complete"] = True
             saveTasks(tasks)
             return {"message": "Task marked complete"}
 

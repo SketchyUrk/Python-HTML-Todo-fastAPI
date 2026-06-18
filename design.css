@@ -5,6 +5,8 @@ body{
 #todoList{
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-align: center;
+    font-size: 50px;
+    letter-spacing: 5px;
 }
 
 table{
@@ -29,4 +31,41 @@ hr{
 td{
     font-size: 30px;
     text-align: center;
+}
+
+#controls{
+    display: flexbox;
+
+}
+
+.layout{
+    display: flex;
+    align-items: flex-start;
+    gap: 20px
+}
+
+.controls{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    text-align: center;
+    position:fixed;
+    left: 800px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .5)
+}
+
+.controls input {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.controls button {
+    width: 220px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer
 }
