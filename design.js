@@ -1,18 +1,24 @@
-fetch("tasks.json")
-    .then(response => response.json())
-    .then(tasks => {
-        const tableBody = document.getElementById('taskTableBody');
+async function loadTasks() {
+    const response = await fetch("http://127.0.0.1:8000/tasks");
+    const tasks = await response.json();
 
-        tasks.forEach(task => {
-            const row = document.createElement('tr');
+    const tableBody = document.getElementById("taskTable");
 
-            row.innerHTML =`
-            <td class="taskID">${task.id}</td>
-            <td class="taskTitle">${task.title}</td>
-            <td class="tastComplete">${task.completed ? 'Yes' : 'No'}</td>
-            `;
+    tableBody.innerHTML = "";
 
-            tableBody.appendChild(row);
-        });
-    })
-    .catch(error => console.error('Error loading tasks:',error));
+    tasks.forEach(task => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${task.id}</td>
+            <td>${task.title}</td>
+            <td class="${task.complete ? 'completed' : ''}">
+                ${task.complete ? 'Yes' : 'No'}
+            </td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
+
+loadTasks();

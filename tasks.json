@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "title": "New Task",
-         "completed": false
+        "title" : "My Task",
+        "complete": true
     }
 ]
