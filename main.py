@@ -65,16 +65,16 @@ def addTask(taskData : TaskCreate):
     
 
 @app.put("/tasks/{taskID}/complete")
-def comepleteTask(taskID: int):
+def completeTask(taskID: int):
     tasks = loadTasks()
-    
+
     for task in tasks:
         if task["id"] == taskID:
             task["completed"] = True
             saveTasks(tasks)
-            
-    raise HTTPException(status_code=404,
-                        detail="Task not found")
+            return {"message": "Task marked complete"}
+
+    raise HTTPException(status_code=404, detail="Task not found")
 
 
 @app.delete("/tasks/{taskID}")

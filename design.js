@@ -22,3 +22,19 @@ async function loadTasks() {
 }
 
 loadTasks();
+
+document.getElementById("completeBtn").addEventListener("click", async () => {
+
+    const id = document.getElementById("taskId").value;
+
+    if (!id) {
+        alert("Please enter a task ID");
+        return;
+    }
+
+    await fetch(`http://127.0.0.1:8000/tasks/${id}/complete`, {
+        method: "PUT"
+    });
+
+    loadTasks(); // refresh table
+});
