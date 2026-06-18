@@ -21,20 +21,49 @@ async function loadTasks() {
     });
 }
 
-loadTasks();
 
-document.getElementById("completeBtn").addEventListener("click", async () => {
+document.getElementById("addBtn").addEventListener("click", async () => {
 
-    const id = document.getElementById("taskId").value;
+    const title = document.getElementById("taskTitle").value;
 
-    if (!id) {
-        alert("Please enter a task ID");
+    if (!title.trim()) {
+        alert("Please enter a task title");
         return;
     }
+
+    await fetch("http://127.0.0.1:8000/tasks", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: title
+        })
+    });
+
+    document.getElementById("taskTitle").value = "";
+
+    loadTasks();
+});
+
+document.getElementById("completeBtn").addEventListener("click", async () => {
+    const id = document.getElementById("taskId").value;
 
     await fetch(`http://127.0.0.1:8000/tasks/${id}/complete`, {
         method: "PUT"
     });
 
-    loadTasks(); // refresh table
+    loadTasks();
 });
+
+document.getElementById("deleteBtn").addEventListener("click", async () => {
+    const id = document.getElementById("taskId").value;
+
+    await fetch(`http://127.0.0.1:8000/tasks/${id}`, {
+        method: "DELETE"
+    });
+
+    loadTasks();
+});
+
+loadTasks()
