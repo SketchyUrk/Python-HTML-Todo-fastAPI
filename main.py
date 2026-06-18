@@ -70,7 +70,7 @@ def completeTask(taskID: int):
 
     for task in tasks:
         if task["id"] == taskID:
-            task["completed"] = True
+            task["complete"] = True
             saveTasks(tasks)
             return {"message": "Task marked complete"}
 
