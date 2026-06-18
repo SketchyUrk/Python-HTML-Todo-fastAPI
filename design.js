@@ -6,7 +6,18 @@ function fetchData() {
             }
             return response.json()
         })
-        .then(data => console.log(data))
+        .then(data => {
+            const tasks = document.getElementsByClassName("taskName");
+
+            data.forEach(task =>{
+                const p = document.createElement('p');
+                p.textContent = `${task.title}`;
+                tasks.appendChild(p);
+            });
+        })
         .catch(error => console.error('Failed to fetch data:', error))
 }
 fetchData();
+
+let taskTitles = document.getElementsByClassName("taskTitle");
+let completed  = document.getElementsByClassName("completed");
