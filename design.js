@@ -47,7 +47,12 @@ document.getElementById("addBtn").addEventListener("click", async () => {
 });
 
 document.getElementById("completeBtn").addEventListener("click", async () => {
-    const id = document.getElementById("taskId").value;
+    
+    const input = document.getElementById("taskID");
+    const id = input.value;
+
+    console.log("ID input element:", document.getElementById("taskID"));
+    console.log("ID value:", document.getElementById("taskID").value);
 
     await fetch(`http://127.0.0.1:8000/tasks/${id}/complete`, {
         method: "PUT"
@@ -57,7 +62,7 @@ document.getElementById("completeBtn").addEventListener("click", async () => {
 });
 
 document.getElementById("deleteBtn").addEventListener("click", async () => {
-    const id = document.getElementById("taskId").value;
+    const id = document.getElementById("taskID").value;
 
     await fetch(`http://127.0.0.1:8000/tasks/${id}`, {
         method: "DELETE"
