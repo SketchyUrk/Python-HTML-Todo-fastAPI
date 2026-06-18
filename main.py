@@ -32,7 +32,7 @@ def saveTasks(tasks):
 def nextID(tasks):
     if not tasks:
         return 1
-    return max(task["id"] for task in tasks)
+    return max(task["id"] for task in tasks) + 1
 
 
 @app.get("/")
@@ -64,7 +64,7 @@ def addTask(taskData : TaskCreate):
     }
     
 
-@app.put("/tasks/{taskID}/complete/")
+@app.put("/tasks/{taskID}/complete")
 def completeTask(taskID: int):
     tasks = loadTasks()
 

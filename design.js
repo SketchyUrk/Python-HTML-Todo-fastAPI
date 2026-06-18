@@ -57,8 +57,10 @@ document.getElementById("completeBtn").addEventListener("click", async () => {
         method: "PUT"
     });
 
-    loadTasks();
+    await loadTasks();
 });
+
+loadTasks()
 
 document.getElementById("deleteBtn").addEventListener("click", async () => {
     const id = document.getElementById("taskID").value;
