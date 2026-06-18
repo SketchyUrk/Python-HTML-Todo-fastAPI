@@ -12,9 +12,7 @@ async function loadTasks() {
         row.innerHTML = `
             <td>${task.id}</td>
             <td>${task.title}</td>
-            <td class="${task.complete ? 'completed' : ''}">
-                ${task.complete ? 'Yes' : 'No'}
-            </td>
+            <td>${task.completed ? "Yes" : "No"}</td>
         `;
 
         tableBody.appendChild(row);
@@ -50,17 +48,11 @@ document.getElementById("completeBtn").addEventListener("click", async () => {
     
     const id = document.getElementById("taskID").value;
 
-    console.log("ID input element:", document.getElementById("taskID"));
-    console.log("ID value:", document.getElementById("taskID").value);
-
     await fetch(`http://127.0.0.1:8000/tasks/${id}/complete`, {
         method: "PUT"
     });
-
     await loadTasks();
 });
-
-loadTasks()
 
 document.getElementById("deleteBtn").addEventListener("click", async () => {
     const id = document.getElementById("taskID").value;
@@ -72,4 +64,4 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
     loadTasks();
 });
 
-loadTasks()
+loadTasks();
