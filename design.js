@@ -1,23 +1,18 @@
-function fetchData() {
-    fetch("./tasks.json")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error (`HTTP error! Status: ${response.status}`);
-            }
-            return response.json()
-        })
-        .then(data => {
-            const tasks = document.getElementsByClassName("taskName");
+fetch("tasks.json")
+    .then(response => response.json())
+    .then(tasks => {
+        const tableBody = document.getElementById('taskTableBody');
 
-            data.forEach(task =>{
-                const p = document.createElement('p');
-                p.textContent = `${task.title}`;
-                tasks.appendChild(p);
-            });
-        })
-        .catch(error => console.error('Failed to fetch data:', error))
-}
-fetchData();
+        tasks.forEach(task => {
+            const row = document.createElement('tr');
 
-let taskTitles = document.getElementsByClassName("taskTitle");
-let completed  = document.getElementsByClassName("completed");
+            row.innerHTML =`
+            <td class="taskID">${task.id}</td>
+            <td class="taskTitle">${task.title}</td>
+            <td class="tastComplete">${task.completed ? 'Yes' : 'No'}</td>
+            `;
+
+            tableBody.appendChild(row);
+        });
+    })
+    .catch(error => console.error('Error loading tasks:',error));

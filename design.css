@@ -25,3 +25,8 @@ hr{
     height: 10px;
     background-color: black;
 }
+
+td{
+    font-size: 30px;
+    text-align: center;
+}
