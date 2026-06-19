@@ -1,12 +1,20 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from json import dump, load, JSONDecodeError
-from os import path
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
+templates = Jinja2Templates(directory="templates")
 
-TASKS_FILE = "tasks.json"
+app.mount(
+         "/static",
+          StaticFiles(
+              directory="static"
+              ),
+          name="static"
+          )
+
+
 
 
 class TaskCreate(BaseModel):
@@ -36,8 +44,16 @@ def nextID(tasks):
 
 
 @app.get("/")
-def root():
-    return {"message":" Todo API is running "}
+def home(request: Request):
+    tasks = loadTasks()
+
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "tasks": tasks
+        }
+    )
 
 
 @app.get("/tasks")
