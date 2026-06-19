@@ -15,7 +15,7 @@ task_id = 1
 def home(request: Request):
     return templates.TemplateResponse(
         request=request,
-        name="index.html"
+        name="index.html",
         context={
             "tasks": tasks
         }
