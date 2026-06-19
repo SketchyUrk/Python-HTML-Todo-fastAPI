@@ -3,16 +3,64 @@
     <head>
         <title>Todo List</title>
 
-        <link rel="stylesheet" href="/static/design.css">
+        <link rel="stylesheet" href="design.css">
     </head>
     <body>
         <div class="container">
             <h1>Todo List</h1>
 
-            <form action="/add" method="post" class="add-form">
-                <input type="text" name="title" placeholder="Enter task..." required>
+            <form action="/add" method="post">
+    <input
+        type="text"
+        name="title"
+        placeholder="Enter task..."
+        required
+    >
+    <button type="submit">Add</button>
+            </form>
+
+            <h2>Tasks</h2>
+
+            <ul>
+            {% for task in tasks %}
+                <li>
+                    [ID: {{ task.id }}]
+                    {{ task.title }}
+
+                    {% if task.completed %}
+                        ✓ Completed
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+
+            <hr>
+
+            <h3>Complete Task</h3>
+
+            <form action="/toggle" method="post">
+                <input
+                    type="number"
+                    name="task_id"
+                    placeholder="Task ID"
+                    required
+                >
                 <button type="submit">
-                    Add
+                    Complete / Undo
+                </button>
+            </form>
+
+            <h3>Delete Task</h3>
+
+            <form action="/delete" method="post">
+                <input
+                    type="number"
+                    name="task_id"
+                    placeholder="Task ID"
+                    required
+                >
+                <button type="submit">
+                    Delete
                 </button>
             </form>
             <ul class="todo-list">
@@ -39,7 +87,7 @@
             </ul>
         </div>
 
-        <script src="/static/design.js"></script>
+        <script src="design.js"></script>
 
     </body>
 </html>

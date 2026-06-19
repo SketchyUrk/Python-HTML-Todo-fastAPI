@@ -1,76 +1,69 @@
-body{
-    background-color:rgb(228, 225, 225)
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
 }
 
-#todoList{
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    text-align: center;
-    font-size: 50px;
-    letter-spacing: 5px;
+.container {
+    max-width: 700px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
 }
 
-table{
-    border-collapse: collapse;
-}
-
-th, td{
-    border: 4px solid black;
-    padding: 10px;
-}
-
-th{
-    font-size: xx-large;
-    padding: 30px 20px;
-}
-
-hr{
-    height: 10px;
-    background-color: black;
-}
-
-td{
-    font-size: 30px;
+h1 {
     text-align: center;
 }
 
-#controls{
-    display: flexbox;
-
-}
-
-.layout{
+.add-form {
     display: flex;
-    align-items: flex-start;
-    gap: 20px
-}
-
-.controls{
-    display: flex;
-    flex-direction: column;
     gap: 10px;
+}
+
+.add-form input {
+    flex: 1;
     padding: 10px;
-    border: 1px solid #000;
-    border-radius: 8px;
-    text-align: center;
-    position:fixed;
-    left: 800px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .5)
 }
 
-.controls input {
-    width: 200px;
+.add-form button {
+    padding: 10px 20px;
+}
+
+.todo-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.todo-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     padding: 10px;
-    font-size: 16px;
+    margin-bottom: 10px;
+
+    border: 1px solid #ddd;
+    border-radius: 6px;
 }
 
-.controls button {
-    width: 220px;
-    padding: 12px;
-    font-size: 16px;
-    cursor: pointer
+.completed span {
+    text-decoration: line-through;
+    color: gray;
 }
 
-h3{
-    font-size: 40px;
-    height: fit-content;
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 6px 12px;
 }
