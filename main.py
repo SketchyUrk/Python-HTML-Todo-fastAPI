@@ -1,58 +1,104 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+import json
+import os
 
 app = FastAPI()
 
-tasks = []
-task_id = 1
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app.mount(
+    "/static",
+    StaticFiles(directory=BASE_DIR),
+    name = "static"
+)
+
+
+TASKS_FILE = os.path.join(BASE_DIR, "tasks.json")
 
 
 class TaskCreate(BaseModel):
     text: str
-    
+
+
+def load_tasks():
+    if not os.path.exists(TASKS_FILE):
+        with open(TASKS_FILE, "w") as f:
+            json.dump([], f)
+
+    with open(TASKS_FILE, "r") as f:
+        return json.load(f)
+
+
+def save_tasks(tasks):
+    with open(TASKS_FILE, "w") as f:
+        json.dump(tasks, f, indent=4)
+
+
+def next_id(tasks):
+    if not tasks:
+        return 1
+
+    return max(task["id"] for task in tasks) + 1
+
+
+app.mount("/static", StaticFiles(directory=BASE_DIR), name="static")
+
+
+@app.get("/")
+async def home():
+    return FileResponse(os.path.join(BASE_DIR, "index.html"))
+
+
 @app.get("/tasks")
 async def get_tasks():
-    
-    return tasks
+    return load_tasks()
 
 
 @app.post("/tasks")
 async def create_task(task: TaskCreate):
-    
-    global task_id
-    
+    tasks = load_tasks()
+
     new_task = {
-        "id": task_id,
+        "id": next_id(tasks),
         "text": task.text,
         "completed": False
     }
-    
+
     tasks.append(new_task)
-    task_id += 1
-    
+    save_tasks(tasks)
+
     return new_task
 
 
 @app.put("/tasks/{task_id}")
 async def toggle_task(task_id: int):
-    
+    tasks = load_tasks()
+
     for task in tasks:
         if task["id"] == task_id:
             task["completed"] = not task["completed"]
+
+            save_tasks(tasks)
+
             return task
-        
+
     return JSONResponse(
         status_code=404,
         content={"message": "Task not found"}
     )
-    
+
 
 @app.delete("/tasks/{task_id}")
 async def delete_task(task_id: int):
-    
-    global tasks
-    
-    tasks = [task for task in tasks if task["id"] != task_id]
-    
+    tasks = load_tasks()
+
+    updated_tasks = [
+        task for task in tasks
+        if task["id"] != task_id
+    ]
+
+    save_tasks(updated_tasks)
+
     return {"message": "Task deleted"}
