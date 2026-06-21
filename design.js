@@ -1,66 +1,72 @@
+const taskInput = document.getElementById("taskInput");
+const addBtn = document.getElementById("addBtn");
+const taskList = document.getElementById("taskList");
+
 async function loadTasks() {
-    const response = await fetch("http://127.0.0.1:8000/tasks");
+    const response = await fetch("/tasks");
     const tasks = await response.json();
 
-    const tableBody = document.getElementById("taskTable");
-
-    tableBody.innerHTML = "";
+    taskList.innerHTML = "";
 
     tasks.forEach(task => {
-        const row = document.createElement("tr");
+        const li = document.createElement("li");
 
-        row.innerHTML = `
-            <td>${task.id}</td>
-            <td>${task.title}</td>
-            <td>${task.completed ? "Yes" : "No"}</td>
-        `;
+        const span = document.createElement("span");
+        span.textContent = task.text;
 
-        tableBody.appendChild(row);
+        if (task.completed) {
+            span.classList.add("completed");
+        }
+
+        const completeBtn = document.createElement("button");
+        completeBtn.textContent = task.completed
+            ? "Undo"
+            : "Complete";
+
+        completeBtn.onclick = async () => {
+            await fetch(`/tasks/${task.id}`, {
+                method: "PUT"
+            });
+
+            loadTasks();
+        };
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+
+        deleteBtn.onclick = async () => {
+            await fetch(`/tasks/${task.id}`, {
+                method: "DELETE"
+            });
+
+            loadTasks();
+        };
+
+        const actions = document.createElement("div");
+        actions.appendChild(completeBtn);
+        actions.appendChild(deleteBtn);
+
+        li.appendChild(span);
+        li.appendChild(actions);
+
+        taskList.appendChild(li);
     });
 }
 
+addBtn.addEventListener("click", async () => {
+    const text = taskInput.value.trim();
 
-document.getElementById("addBtn").addEventListener("click", async () => {
+    if (!text) return;
 
-    const title = document.getElementById("taskTitle").value;
-
-    if (!title.trim()) {
-        alert("Please enter a task title");
-        return;
-    }
-
-    await fetch("http://127.0.0.1:8000/tasks", {
+    await fetch("/tasks", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            title: title
-        })
+        body: JSON.stringify({ text })
     });
 
-    document.getElementById("taskTitle").value = "";
-
-    loadTasks();
-});
-
-document.getElementById("completeBtn").addEventListener("click", async () => {
-    
-    const id = document.getElementById("taskID").value;
-
-    await fetch(`http://127.0.0.1:8000/tasks/${id}/complete`, {
-        method: "PUT"
-    });
-    await loadTasks();
-});
-
-document.getElementById("deleteBtn").addEventListener("click", async () => {
-    const id = document.getElementById("taskID").value;
-
-    await fetch(`http://127.0.0.1:8000/tasks/${id}`, {
-        method: "DELETE"
-    });
-
+    taskInput.value = "";
     loadTasks();
 });
 

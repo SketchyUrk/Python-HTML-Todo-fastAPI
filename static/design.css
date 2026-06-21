@@ -1,69 +1,26 @@
-body {
+body{
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    max-width: 600px;
+    margin: 40px auto;
 }
 
-.container {
-    max-width: 700px;
-    margin: 50px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-h1 {
-    text-align: center;
-}
-
-.add-form {
-    display: flex;
-    gap: 10px;
-}
-
-.add-form input {
-    flex: 1;
-    padding: 10px;
-}
-
-.add-form button {
-    padding: 10px 20px;
-}
-
-.todo-list {
-    list-style: none;
+ul{
     padding: 0;
-    margin-top: 20px;
 }
 
-.todo-list li {
+li {
+    list-style: none;
+    margin: 10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    padding: 10px;
-    margin-bottom: 10px;
-
-    border: 1px solid #ddd;
-    border-radius: 6px;
 }
 
-.completed span {
+.completed {
     text-decoration: line-through;
-    color: gray;
+    color:gray;
 }
 
-.actions {
-    display: flex;
-    gap: 8px;
-}
-
-button {
-    cursor: pointer;
-}
-
-.delete-btn {
-    background: red;
-    color: white;
-    border: none;
-    padding: 6px 12px;
+button{
+    margin-left: 5px;
 }

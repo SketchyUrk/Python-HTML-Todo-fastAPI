@@ -1,51 +1,58 @@
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import RedirectResponse
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 app = FastAPI()
-
-templates = Jinja2Templates(directory="templates")
 
 tasks = []
 task_id = 1
 
-@app.get("/")
-def home(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="index.html",
-        context={
-            "tasks": tasks
-        }
-    )
 
-@app.post("/add")
-def add_task(title: str = Form(...)):
+class TaskCreate(BaseModel):
+    text: str
+    
+@app.get("/tasks")
+async def get_tasks():
+    
+    return tasks
+
+
+@app.post("/tasks")
+async def create_task(task: TaskCreate):
+    
     global task_id
     
-    tasks.append({
+    new_task = {
         "id": task_id,
-        "title": title,
+        "text": task.text,
         "completed": False
-    })
+    }
     
+    tasks.append(new_task)
     task_id += 1
     
-    return RedirectResponse("/", status_code=303)
+    return new_task
 
-@app.post("/toggle/{id}")
-def toggle_task(id: int):
+
+@app.put("/tasks/{task_id}")
+async def toggle_task(task_id: int):
+    
     for task in tasks:
-        if task["id"] == id:
+        if task["id"] == task_id:
             task["completed"] = not task["completed"]
-            break
+            return task
+        
+    return JSONResponse(
+        status_code=404,
+        content={"message": "Task not found"}
+    )
+    
 
-    return RedirectResponse("/", status_code=303)
-
-@app.post("/delete/{id}")
-def delete_task(id: int):
+@app.delete("/tasks/{task_id}")
+async def delete_task(task_id: int):
+    
     global tasks
     
-    tasks = [task for task in tasks if task["id"] != id]
+    tasks = [task for task in tasks if task["id"] != task_id]
     
-    return RedirectResponse("/", status_code=303)
+    return {"message": "Task deleted"}

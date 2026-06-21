@@ -1,93 +1,22 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <title>Todo List</title>
-
         <link rel="stylesheet" href="design.css">
     </head>
+
     <body>
-        <div class="container">
-            <h1>Todo List</h1>
 
-            <form action="/add" method="post">
-    <input
-        type="text"
-        name="title"
-        placeholder="Enter task..."
-        required
-    >
-    <button type="submit">Add</button>
-            </form>
+        <h1>Todo List</h1>
 
-            <h2>Tasks</h2>
+        <input id="taskInput" type="text" placeholder="Enter task">
+        <button id="addBtn">Add Task</button>
 
-            <ul>
-            {% for task in tasks %}
-                <li>
-                    [ID: {{ task.id }}]
-                    {{ task.title }}
-
-                    {% if task.completed %}
-                        ✓ Completed
-                    {% endif %}
-                </li>
-            {% endfor %}
-            </ul>
-
-            <hr>
-
-            <h3>Complete Task</h3>
-
-            <form action="/toggle" method="post">
-                <input
-                    type="number"
-                    name="task_id"
-                    placeholder="Task ID"
-                    required
-                >
-                <button type="submit">
-                    Complete / Undo
-                </button>
-            </form>
-
-            <h3>Delete Task</h3>
-
-            <form action="/delete" method="post">
-                <input
-                    type="number"
-                    name="task_id"
-                    placeholder="Task ID"
-                    required
-                >
-                <button type="submit">
-                    Delete
-                </button>
-            </form>
-            <ul class="todo-list">
-                <li class="{% if task.completed %}completed{% endif %}">
-                    <span>{{task.title}}</span>
-                    <div class="actions">
-                        <form action="/toggle/{{task.id}}" method="post">
-                            <button type="submit">
-                                {% if task.completed %}
-                                    Undo
-                                {% else %}
-                                    completed
-                                {% endif }
-                            </button>
-                        </form>
-                        <form action="/delete//{{task.id}}" method="post">
-                            <button type="submit" class="deleteBtn">
-                                Delete
-                            </button>
-                       </form>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
+        <ul id="taskList"></ul>
 
         <script src="design.js"></script>
 
     </body>
+
 </html>
