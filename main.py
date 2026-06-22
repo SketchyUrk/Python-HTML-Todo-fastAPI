@@ -2,12 +2,12 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-import json
-import os
+from json import dump, load
+from os import path
 
 app = FastAPI()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = path.dirname(path.abspath(__file__))
 app.mount(
     "/static",
     StaticFiles(directory=BASE_DIR),
@@ -15,7 +15,7 @@ app.mount(
 )
 
 
-TASKS_FILE = os.path.join(BASE_DIR, "tasks.json")
+TASKS_FILE = path.join(BASE_DIR, "tasks.json")
 
 
 class TaskCreate(BaseModel):
@@ -23,17 +23,17 @@ class TaskCreate(BaseModel):
 
 
 def load_tasks():
-    if not os.path.exists(TASKS_FILE):
+    if not path.exists(TASKS_FILE):
         with open(TASKS_FILE, "w") as f:
-            json.dump([], f)
+            dump([], f)
 
     with open(TASKS_FILE, "r") as f:
-        return json.load(f)
+        return load(f)
 
 
 def save_tasks(tasks):
     with open(TASKS_FILE, "w") as f:
-        json.dump(tasks, f, indent=4)
+        dump(tasks, f, indent=4)
 
 
 def next_id(tasks):
@@ -48,7 +48,7 @@ app.mount("/static", StaticFiles(directory=BASE_DIR), name="static")
 
 @app.get("/")
 async def home():
-    return FileResponse(os.path.join(BASE_DIR, "index.html"))
+    return FileResponse(path.join(BASE_DIR, "index.html"))
 
 
 @app.get("/tasks")
