@@ -13,6 +13,23 @@ async function loadTasks() {
     });
 }
 
+async function loadTasks() {
+    const response = await fetch("/tasks");
+
+    console.log("Status:", response.status);
+
+    const tasks = await response.json();
+
+    console.log("Tasks:", tasks);
+    console.log("Is array?", Array.isArray(tasks));
+
+    taskList.innerHTML = "";
+
+    tasks.forEach(task => {
+        createTaskElement(task);
+    });
+}
+
 function createTaskElement(task) {
     const li = document.createElement("li");
 
