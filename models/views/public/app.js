@@ -1,10 +1,24 @@
+let currentUser = null;
+let currentPassword = null;
+
+
 const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
 
 async function loadTasks() {
     const response = await fetch("/tasks");
-    const tasks = await response.json();
+    
+    const {username , password} = 
+        req.query;
+
+    const tasks = 
+        await Task.find({
+            username,
+            password
+        }).sort({
+            _id: -1
+        });
 
     taskList.innerHTML = "";
 
@@ -116,5 +130,47 @@ taskForm.addEventListener(
         loadTasks();
     }
 );
+
+document.
+    getElementById("loginBtn")
+    .addEventListener("click", async () => {
+
+        const username = 
+            document.getElementById(
+                "username"
+            ).value;
+
+        const password = 
+            document.getElementById(
+                "password"
+            ).value;
+
+        const response = 
+            await fetch(
+                `/tasks?username=${username}&password=${password}`
+            );
+    })
+
+    if (response.ok) {
+
+        currentUser = 
+            username;
+
+        currentPassword = 
+            password;
+
+        document.getElementById(
+            "loginScreen"
+        ).style.display = 
+            "none";
+
+        document.getElementById(
+            "todoScreen"
+        ).style.display = 
+            "block";
+
+        loadTasks()
+    }
+
 
 loadTasks();

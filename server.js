@@ -74,8 +74,15 @@ app.get(
     "/tasks",
     async (req, res) => {
         try {
-            const tasks =
-                await Task.find().sort({
+            
+            const { username , password } = 
+                req.query;
+
+            const tasks = 
+                await Task.find({
+                    username,
+                    password
+                }).sort({
                     _id: -1
                 });
 
@@ -92,10 +99,18 @@ app.post(
     "/tasks",
     async (req, res) => {
         try {
-            const task =
+            
+            const task = 
                 await Task.create({
-                    text: req.body.text
-                });
+                    username:
+                        req.body.username,
+                
+                    password:
+                        req.body.password,
+
+                    text:
+                        req.body.text
+                    });
 
             res.status(201).json(task);
         } catch (err) {
