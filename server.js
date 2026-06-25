@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const express = require("express");
-const mongoose = require("mongoose");
 const path = require("path");
 
 const Task = require("./models/Task");
@@ -11,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
 
 app.use(
     "/static",
@@ -35,6 +35,30 @@ app.set(
     )
 );
 
+app.get("/", (req, res) => {
+    res.render("index");
+});
+
+const mongoose = require("mongoose");
+
+const taskSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true
+    },
+
+    text: {
+        type: String,
+        required: true
+    }
+})
+
+module.exports = mongoose.model(
+    "Task",
+    taskSchema
+);
+
+
 mongoose
     .connect(process.env.MONGODB_URI)
     .then(() => {
@@ -45,10 +69,6 @@ mongoose
     .catch(err => {
         console.error(err);
     });
-
-app.get("/", (req, res) => {
-    res.render("index");
-});
 
 app.get(
     "/tasks",
