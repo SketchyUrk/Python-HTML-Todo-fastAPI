@@ -23,8 +23,8 @@ async function loadTasks() {
     taskList.innerHTML = "";
 
     tasks.forEach(task => {
-        createTaskElement(task);
     });
+    createTaskElement(task);
 }
 
 async function loadTasks() {
@@ -104,6 +104,11 @@ function createTaskElement(task) {
     taskList.appendChild(li);
 }
 
+const taskText =
+    document.getElementById(
+        "taskInput"
+    ).value;
+
 taskForm.addEventListener(
     "submit",
     async e => {
@@ -121,7 +126,9 @@ taskForm.addEventListener(
                     "application/json"
             },
             body: JSON.stringify({
-                text
+                text: taskText,
+                username: currentUser,
+                password: currentPassword
             })
         });
 
@@ -150,6 +157,10 @@ document.
                 `/tasks?username=${username}&password=${password}`
             );
     })
+
+    const response = await fetch(
+        `/tasks?username=${username}&password=${password}`
+    );
 
     if (response.ok) {
 

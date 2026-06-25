@@ -41,24 +41,6 @@ app.get("/", (req, res) => {
 
 const mongoose = require("mongoose");
 
-const taskSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true
-    },
-
-    text: {
-        type: String,
-        required: true
-    }
-})
-
-module.exports = mongoose.model(
-    "Task",
-    taskSchema
-);
-
-
 mongoose
     .connect(process.env.MONGODB_URI)
     .then(() => {
