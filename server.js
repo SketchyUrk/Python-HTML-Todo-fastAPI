@@ -20,11 +20,6 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-mongoose
-    .connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/todo")
-    .then(() => console.log("MongoDB Connected"))
-    .catch(err => console.error(err));
-
 app.get("/", (req, res) => {
     res.render("index");
 });
@@ -67,6 +62,7 @@ app.post("/login", async (req, res) => {
     }
 });
 
+console.log("TASK ROUTES LOADED");
 app.get("/tasks", async (req, res) => {
     try {
         const { username, password } = req.query;
