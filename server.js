@@ -79,31 +79,28 @@ app.get(
         }
 );
 
-app.post(
-    "/tasks",
-    async (req, res) => {
-        try {
-            
-            const task = 
-                await Task.create({
-                    username:
-                        req.body.username,
-                
-                    password:
-                        req.body.password,
+app.post("/tasks", async (req, res) => {
+    console.log("POST /tasks hit");
+    console.log(req.body);
 
-                    text:
-                        req.body.text
-                    });
+    try {
+        const task = await Task.create({
+            username: req.body.username,
+            password: req.body.password,
+            text: req.body.text
+        });
 
-            res.status(201).json(task);
-        } catch (err) {
-            res.status(500).json({
-                error: err.message
-            });
-        }
+        console.log("Task created:", task);
+
+        res.status(201).json(task);
+    } catch (err) {
+        console.error("POST ERROR:", err);
+
+        res.status(500).json({
+            error: err.message
+        });
     }
-);
+});
 
 app.put(
     "/tasks/:id",

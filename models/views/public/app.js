@@ -7,28 +7,9 @@ const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
 
 async function loadTasks() {
-    const response = await fetch("/tasks");
-    
-    const {username , password} = 
-        req.query;
-
-    const tasks = 
-        await Task.find({
-            username,
-            password
-        }).sort({
-            _id: -1
-        });
-
-    taskList.innerHTML = "";
-
-    tasks.forEach(task => {
-    });
-    createTaskElement(task);
-}
-
-async function loadTasks() {
-    const response = await fetch("/tasks");
+    const response = await fetch(
+    `/tasks?username=${currentUser}&password=${currentPassword}`
+    );
 
     console.log("Status:", response.status);
 
@@ -104,11 +85,6 @@ function createTaskElement(task) {
     taskList.appendChild(li);
 }
 
-const taskText =
-    document.getElementById(
-        "taskInput"
-    ).value;
-
 taskForm.addEventListener(
     "submit",
     async e => {
@@ -151,37 +127,29 @@ document.
             document.getElementById(
                 "password"
             ).value;
+    });
 
-        const response = 
-            await fetch(
-                `/tasks?username=${username}&password=${password}`
-            );
-    })
+document.getElementById("loginBtn").addEventListener("click", async () => {
 
-    const response = fetch(
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch(
         `/tasks?username=${username}&password=${password}`
     );
 
-    if (response.ok) {
-
-        currentUser = 
-            username;
-
-        currentPassword = 
-            password;
-
-        document.getElementById(
-            "loginScreen"
-        ).style.display = 
-            "none";
-
-        document.getElementById(
-            "todoScreen"
-        ).style.display = 
-            "block";
-
-        loadTasks()
+    if (!response.ok) {
+        alert("Login failed");
+        return;
     }
 
+    currentUser = username;
+    currentPassword = password;
+
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("todoScreen").style.display = "block";
+
+    loadTasks();
+});
 
 loadTasks();
