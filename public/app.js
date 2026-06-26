@@ -1,5 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", () => {
+    currentUser = null;
+    currentPassword = null;
+
+    taskList.innerHTML = "";
+
+    todoScreen.style.display = "none";
+    loginScreen.style.display = "block";
+});
+
 let currentUser = null;
 let currentPassword = null;
 
