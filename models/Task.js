@@ -1,12 +1,8 @@
 const mongoose = require("mongoose");
 
 const taskSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true
-    },
 
-    password: {
+    username: {
         type: String,
         required: true
     },
@@ -20,6 +16,7 @@ const taskSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
+
 });
 
 module.exports = mongoose.model("Task", taskSchema);
