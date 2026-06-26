@@ -158,7 +158,7 @@ document.
             );
     })
 
-    const response = await fetch(
+    const response = fetch(
         `/tasks?username=${username}&password=${password}`
     );
 
